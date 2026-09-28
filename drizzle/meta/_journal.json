@@ -1,0 +1,69 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1780918798676,
+      "tag": "0000_nervous_venom",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1785487800000,
+      "tag": "0001_unique_invoice_number",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1785487900000,
+      "tag": "0002_tenant_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1785489000000,
+      "tag": "0003_secure_login_links",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1785490000000,
+      "tag": "0004_query_performance_indexes",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1785580200000,
+      "tag": "0005_documents_tenant",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1785580800000,
+      "tag": "0006_locations_tenant",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1785582500000,
+      "tag": "0007_locations_organization_required",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1785582600000,
+      "tag": "0008_employee_permissions",
+      "breakpoints": true
+    }
+  ]
+}

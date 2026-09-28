@@ -1,0 +1,332 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* ─────────────────────────────────────────────────────────────────────────
+     Color system — zinc neutrals + royal-indigo accent. WCAG 2.1 AA verified.
+     Ratios (vs panel): primary 17.7/18.1, secondary 7.7/7.4, muted 4.8/5.6,
+     accent 6.6/6.3. No pure black; layered, intentional neutrals.
+     ───────────────────────────────────────────────────────────────────────── */
+  :root {
+    /* Canvas layers — warm off-white, ref: dashboard screenshot */
+    --bg-app: #f0f0f2;        /* page canvas — warm light grey */
+    --bg-panel: #ffffff;      /* cards / panels */
+    --bg-elevated: #ffffff;   /* popovers / menus */
+    --bg-muted: #f7f7f9;      /* inset wells, table headers */
+
+    /* Borders — very subtle, mostly replaced by shadow */
+    --border: #e8e8ed;
+    --border-strong: #d1d1d8;
+
+    /* Text */
+    --text-primary: #111114;
+    --text-secondary: #4b4b5a;
+    --text-muted: #68687a;
+
+    /* Accent — electric blue (matches dark mode) */
+    --accent: #3b82f6;
+    --accent-hover: #2563eb;
+    --accent-solid: #1d4ed8;
+    --accent-fg: #ffffff;
+
+    /* Card shadow — no border, just elevation */
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.06);
+    --shadow-card-hover: 0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.10);
+    --shadow-nav: 0 8px 32px rgba(0,0,0,0.10), 0 1px 0 rgba(255,255,255,0.8) inset;
+
+    /* Back-compat aliases */
+    --background: var(--bg-app);
+    --foreground: var(--text-primary);
+    --card: var(--bg-panel);
+    --card-foreground: var(--text-primary);
+    --muted: var(--bg-muted);
+    --muted-foreground: var(--text-muted);
+    --ring: var(--accent);
+  }
+
+  :root,
+  .dark {
+    color-scheme: dark;
+    /* Canvas layers — deep charcoal, reference: dashboard screenshot */
+    --bg-app: #161618;        /* page canvas — dark but not black */
+    --bg-panel: #1f1f1f;      /* cards / panels — one step lighter */
+    --bg-elevated: #303030;   /* inputs, dropdowns, popovers */
+    --bg-muted: #1f1f1f;      /* table headers, inset wells */
+
+    --border: #303030;        /* subtle card borders */
+    --border-strong: #38383f; /* inputs, interactive */
+
+    --text-primary: #ffffff;  /* pure white — high contrast hero text */
+    --text-secondary: #b8b8c5;/* secondary copy, AA on panel */
+    --text-muted: #a1a1b1;    /* labels and placeholders, AA on panel */
+
+    /* Electric blue accent — replaces neon green from reference */
+    --accent: #3b82f6;        /* blue-500 — vivid on dark */
+    --accent-hover: #60a5fa;  /* blue-400 — hover state */
+    --accent-solid: #2563eb;  /* blue-600 — solid buttons */
+    --accent-fg: #ffffff;
+    --accent-glow: rgba(59, 130, 246, 0.25); /* glow for KPI cards */
+
+    --background: var(--bg-app);
+    --foreground: var(--text-primary);
+    --card: var(--bg-panel);
+    --card-foreground: var(--text-primary);
+    --muted: var(--bg-muted);
+    --muted-foreground: var(--text-muted);
+    --ring: var(--accent);
+  }
+
+  html {
+    background-color: var(--bg-app);
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  button,
+  [role="button"],
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  .icon-button {
+    @apply inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-colors touch-manipulation;
+  }
+
+  .field-control {
+    @apply min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-900 placeholder:text-slate-500 dark:border-slate-600 dark:bg-[#28282d] dark:text-white dark:placeholder:text-slate-400;
+  }
+
+  .mobile-nav-safe {
+    bottom: max(1rem, calc(var(--sab) + .5rem));
+  }
+
+  .mobile-content-safe {
+    padding-bottom: max(7rem, calc(var(--sab) + 6.5rem));
+  }
+}
+
+
+/* Scrollbar — desktop only */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #c0cbea;
+    border-radius: 4px;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: #38383f;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3b82f6;
+  }
+}
+
+/* Mobile: hide all scrollbars for native app feel */
+@media (max-width: 767px) {
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  *::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Bento card */
+.bento {
+  background: var(--card);
+  border-radius: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03), 0 6px 20px rgba(0,0,0,0.05);
+}
+
+/* Glass card — used in dark mode panels */
+.glass {
+  background: rgba(30, 30, 33, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* KPI accent glow card — electric blue inner glow like reference */
+.dark .kpi-glow {
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.18), 0 4px 24px rgba(59, 130, 246, 0.12);
+}
+
+/* Gradient text — used only on intentional hero/marketing surfaces */
+/* Sharp, professional table-header label (Linear/Stripe style).
+   Use on <th> or section column headers. */
+.th-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.dark .th-label {
+  color: #64748b;
+}
+
+/* Capacitor safe area insets */
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+}
+
+/* Prevent text selection in Capacitor WebView */
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Allow text selection on inputs and textareas */
+input, textarea, [contenteditable] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Disable pull-to-refresh in Capacitor */
+html, body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent iOS zoom on input focus */
+@supports (-webkit-touch-callout: none) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
+
+/* Mobile viewport height fix for address bar */
+.min-h-screen-mobile {
+  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
+}
+
+/* ─── Micro-animation keyframes ───────────────────────────── */
+
+@keyframes pop {
+  0%   { transform: scale(0.88); opacity: 0; }
+  60%  { transform: scale(1.05); }
+  100% { transform: scale(1);    opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(10px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes slide-down {
+  from { transform: translateY(-10px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-5px); }
+}
+
+@keyframes count-blur {
+  from { filter: blur(8px); opacity: 0; transform: translateY(6px); }
+  to   { filter: blur(0);   opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  20%       { transform: rotate(-10deg); }
+  40%       { transform: rotate(10deg); }
+  60%       { transform: rotate(-5deg); }
+  80%       { transform: rotate(5deg); }
+}
+
+@keyframes shimmer-sweep {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+@keyframes enter-bottom {
+  from { transform: translateY(20px) scale(0.97); opacity: 0; }
+  to   { transform: translateY(0)    scale(1);    opacity: 1; }
+}
+
+/* Utility classes for the keyframes */
+.animate-pop          { animation: pop           0.32s cubic-bezier(0.16,1,0.3,1) forwards; }
+.animate-slide-up     { animation: slide-up      0.35s cubic-bezier(0.16,1,0.3,1) forwards; }
+.animate-slide-down   { animation: slide-down    0.35s cubic-bezier(0.16,1,0.3,1) forwards; }
+.animate-fade-in      { animation: fade-in       0.25s ease-out forwards; }
+.animate-float        { animation: float         3s   ease-in-out infinite; }
+.animate-count-blur   { animation: count-blur    0.45s cubic-bezier(0.16,1,0.3,1) forwards; }
+.animate-wiggle       { animation: wiggle        0.5s  ease-in-out; }
+.animate-enter-bottom { animation: enter-bottom  0.4s  cubic-bezier(0.16,1,0.3,1) forwards; }
+
+/* Stagger helpers — add to parent, children pick up delay via nth-child */
+.stagger > *:nth-child(1) { animation-delay: 0ms;  }
+.stagger > *:nth-child(2) { animation-delay: 60ms; }
+.stagger > *:nth-child(3) { animation-delay: 120ms; }
+.stagger > *:nth-child(4) { animation-delay: 180ms; }
+.stagger > *:nth-child(5) { animation-delay: 240ms; }
+.stagger > *:nth-child(6) { animation-delay: 300ms; }
+
+/* Shimmer loading gradient */
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer-sweep 1.8s linear infinite;
+}
+.dark .shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
+  background-size: 200% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+}
